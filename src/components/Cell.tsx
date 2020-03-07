@@ -1,22 +1,25 @@
 import React, { useEffect } from "react";
-import { boardSize, cellSize } from "./Constants";
+import { cellColor } from "./Constants"
 
 interface Props {
   id: number;
+  x: number;
+  y: number;
+  size: number;
 }
 
 const Cell: React.FC<Props> = props => {
-  let x = props.id % boardSize;
-  let y = Math.floor(props.id / boardSize);
+  let x = props.x;
+  let y = Math.floor(props.y);
 
   return (
     <rect
       id={`${props.id}c`}
-      x={x * cellSize}
-      y={y * cellSize}
-      width={cellSize}
-      height={cellSize}
-      fill="#e5b773"
+      x={x}
+      y={y}
+      width={props.size}
+      height={props.size}
+      fill={cellColor}
       stroke="black"
       strokeWidth="1.25"
     />

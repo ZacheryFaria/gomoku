@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Piece from "./Piece";
-import { boardSize, cellSize } from "./Constants";
+import { boardSquares, boardSize, cellSize, boardMargin, cellColor } from "./Constants";
 
 import Cell from "./Cell";
 
@@ -13,18 +13,20 @@ const Board: React.FC<{}> = () => {
 
   var circles = [];
 
-  for (var i = 0; i < boardSize * boardSize; i++) {
-    cells.push(<Cell id={i} key={i} />);
+  for (var i = 0; i < boardSquares * boardSquares; i++) {
+    let x = boardMargin + (i % boardSquares * cellSize);
+    let y = boardMargin + (Math.floor(i / boardSquares) * cellSize);
 
-    let x = i % boardSize;
-    let y = Math.floor(i / boardSize);
+    console.log(x,y);
 
-    if (x % 6 === 3 && y % 6 === 3) {
+    cells.push(<Cell id={i} x={x} y={y} size={cellSize} key={i} />);
+
+    if ((i%boardSquares) % 6 === 3 && Math.floor(i/boardSquares) % 6 === 3) {
       circles.push(
         <circle
           key={i}
-          cx={x * cellSize}
-          cy={y * cellSize}
+          cx={x}
+          cy={y}
           r={cellSize / 8}
           fill="black"
         />
@@ -32,9 +34,10 @@ const Board: React.FC<{}> = () => {
     }
   }
 
-  for (var i = 0; i < (boardSize + 1) * (boardSize + 1); i++) {
-    let x = i % (boardSize + 1);
-    let y = Math.floor(i / (boardSize + 1));
+  for (var i = 0; i < (boardSquares + 1) * (boardSquares + 1); i++) {
+    let x = boardMargin + (i % (boardSquares+1) * cellSize);
+    let y = boardMargin + (Math.floor(i / (boardSquares+1)) * cellSize);
+
     pieces.push(
       <Piece x={x} y={y} id={currentPlayer} changePlayer={switchPlayer} />
     );
@@ -46,7 +49,15 @@ const Board: React.FC<{}> = () => {
 
   return (
     <div className="BoardDiv">
-      <svg id="board" className="Board" viewBox="0 0 1000 1000">
+      <svg id="board" className="Board" viewBox={`0 0 ${boardSize} ${boardSize}`}>
+        <rect
+          x='0'
+          y='0'
+          width={boardSize}
+          height={boardSize}
+          fill={cellColor}
+          stroke={cellColor}
+        />
         {cells}
         {circles}
         {pieces}

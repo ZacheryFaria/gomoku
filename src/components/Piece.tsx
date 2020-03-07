@@ -47,8 +47,8 @@ const Piece: React.FC<Props> = props => {
       onClick={() => setOpacity("100%")}
       id={`${props.x}-${props.y}`}
       className={placed ? "" : "Piece"}
-      cx={props.x * cellSize}
-      cy={props.y * cellSize}
+      cx={props.x}
+      cy={props.y}
       r={cellSize / 2.2}
       fill={color}
       opacity={opacity}
