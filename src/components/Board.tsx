@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Piece from "./Piece";
-import { boardSquares, boardSize, cellSize, boardMargin, cellColor } from "./Constants";
+import { boardSquares, boardSize, cellSize, boardMargin, cellColor, numDots } from "./Constants";
 
 import Cell from "./Cell";
 
@@ -21,7 +21,10 @@ const Board: React.FC<{}> = () => {
 
     cells.push(<Cell id={i} x={x} y={y} size={cellSize} key={i} />);
 
-    if ((i%boardSquares) % 6 === 3 && Math.floor(i/boardSquares) % 6 === 3) {
+    const mod = Math.floor(boardSquares / numDots)
+    const res = Math.floor(mod / 2)
+
+    if ((i%boardSquares) % mod === res && Math.floor(i/boardSquares) % mod === res) {
       circles.push(
         <circle
           key={i}
