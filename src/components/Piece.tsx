@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
-import { cellSize } from "./Constants";
 
 interface Props {
   x: number;
   y: number;
+  radius: number;
   id: number;
   changePlayer: () => void;
 }
@@ -49,7 +49,7 @@ const Piece: React.FC<Props> = props => {
       className={placed ? "" : "Piece"}
       cx={props.x}
       cy={props.y}
-      r={cellSize / 2.2}
+      r={props.radius}
       fill={color}
       opacity={opacity}
     />

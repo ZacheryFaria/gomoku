@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState } from "react";
 import Piece from "./Piece";
 import { boardSquares, boardSize, cellSize, boardMargin, cellColor } from "./Constants";
 
@@ -34,17 +34,17 @@ const Board: React.FC<{}> = () => {
     }
   }
 
-  for (var i = 0; i < (boardSquares + 1) * (boardSquares + 1); i++) {
+  for (i = 0; i < (boardSquares + 1) * (boardSquares + 1); i++) {
     let x = boardMargin + (i % (boardSquares+1) * cellSize);
     let y = boardMargin + (Math.floor(i / (boardSquares+1)) * cellSize);
 
     pieces.push(
-      <Piece x={x} y={y} id={currentPlayer} changePlayer={switchPlayer} />
+      <Piece x={x} y={y} radius={cellSize / 2.2} id={currentPlayer} changePlayer={switchPlayer} />
     );
   }
 
   function switchPlayer() {
-    setCurrentPlayer(currentPlayer == 0 ? 1 : 0);
+    setCurrentPlayer(currentPlayer === 0 ? 1 : 0);
   }
 
   return (
