@@ -1,5 +1,11 @@
-import { PLACE_PIECE, RESET_BOARD, CHANGE_PLAYER } from "./actions";
+import {
+  PLACE_PIECE,
+  RESET_BOARD,
+  CHANGE_PLAYER,
+  CHANGE_TIME
+} from "./actions";
 import store, { initialState, BoardState } from "./store";
+import { act } from "react-dom/test-utils";
 
 interface PlacePieceAction {
   type: typeof PLACE_PIECE;
@@ -17,6 +23,13 @@ interface ResetBoardAction {
 interface ChangePlayerAction {
   type: typeof CHANGE_PLAYER;
   payload: {};
+}
+
+interface TimeChangeAction {
+  type: typeof CHANGE_TIME;
+  payload: {
+    index: number;
+  };
 }
 
 export function placePiece(index: number, player: number) {
@@ -43,9 +56,22 @@ export function resetBoard() {
   });
 }
 
+export function addSecond(index: number) {
+  store.dispatch({
+    type: CHANGE_TIME,
+    payload: {
+      index: index
+    }
+  });
+}
+
 export function rootReducer(
   state: BoardState = initialState,
-  action: ChangePlayerAction | PlacePieceAction | ResetBoardAction
+  action:
+    | ChangePlayerAction
+    | PlacePieceAction
+    | ResetBoardAction
+    | TimeChangeAction
 ): BoardState {
   let b: BoardState = Object.assign({}, state);
   switch (action.type) {
@@ -68,6 +94,11 @@ export function rootReducer(
       return {
         ...b,
         board: b.board
+      };
+    case CHANGE_TIME:
+      b.seconds[action.payload.index] += 1;
+      return {
+        ...b
       };
     default:
       return state;
