@@ -1,12 +1,26 @@
-import React, { useState } from "react";
+import React from "react";
 import Piece from "./Piece";
-import { boardSquares, boardSize, cellSize, boardMargin, cellColor, numDots } from "./Constants";
+import {
+  boardSquares,
+  boardSize,
+  cellSize,
+  boardMargin,
+  cellColor,
+  numDots
+} from "./Constants";
+
+import { resetBoard } from "../reducer";
 
 import Cell from "./Cell";
+import { connect } from "react-redux";
 
-const Board: React.FC<{}> = () => {
-  const [currentPlayer, setCurrentPlayer] = useState(1);
+interface Props {
+  board: Array<number>;
+  currentPlayer: number;
+  resetBoard: () => void;
+}
 
+const Board: React.FC<Props> = props => {
   var pieces = [];
 
   var cells = [];
@@ -14,48 +28,49 @@ const Board: React.FC<{}> = () => {
   var circles = [];
 
   for (var i = 0; i < boardSquares * boardSquares; i++) {
-    let x = boardMargin + (i % boardSquares * cellSize);
-    let y = boardMargin + (Math.floor(i / boardSquares) * cellSize);
-
-    console.log(x,y);
+    let x = boardMargin + (i % boardSquares) * cellSize;
+    let y = boardMargin + Math.floor(i / boardSquares) * cellSize;
 
     cells.push(<Cell id={i} x={x} y={y} size={cellSize} key={i} />);
 
-    const mod = Math.floor(boardSquares / numDots)
-    const res = Math.floor(mod / 2)
+    const mod = Math.floor(boardSquares / numDots);
+    const res = Math.floor(mod / 2);
 
-    if ((i%boardSquares) % mod === res && Math.floor(i/boardSquares) % mod === res) {
+    if (
+      (i % boardSquares) % mod === res &&
+      Math.floor(i / boardSquares) % mod === res
+    ) {
       circles.push(
-        <circle
-          key={i}
-          cx={x}
-          cy={y}
-          r={cellSize / 8}
-          fill="black"
-        />
+        <circle key={i} cx={x} cy={y} r={cellSize / 8} fill="black" />
       );
     }
   }
 
   for (i = 0; i < (boardSquares + 1) * (boardSquares + 1); i++) {
-    let x = boardMargin + (i % (boardSquares+1) * cellSize);
-    let y = boardMargin + (Math.floor(i / (boardSquares+1)) * cellSize);
+    let x = boardMargin + (i % (boardSquares + 1)) * cellSize;
+    let y = boardMargin + Math.floor(i / (boardSquares + 1)) * cellSize;
 
     pieces.push(
-      <Piece x={x} y={y} radius={cellSize / 2.2} id={currentPlayer} changePlayer={switchPlayer} />
+      <Piece
+        x={x}
+        y={y}
+        radius={cellSize / 2.2}
+        user={props.currentPlayer}
+        id={i}
+        key={i}
+      />
     );
-  }
-
-  function switchPlayer() {
-    setCurrentPlayer(currentPlayer === 0 ? 1 : 0);
   }
 
   return (
     <div className="BoardDiv">
-      <svg id="board" className="Board" viewBox={`0 0 ${boardSize} ${boardSize}`}>
+      <svg
+        id="board"
+        className="Board"
+        viewBox={`0 0 ${boardSize} ${boardSize}`}>
         <rect
-          x='0'
-          y='0'
+          x="0"
+          y="0"
           width={boardSize}
           height={boardSize}
           fill={cellColor}
@@ -65,8 +80,23 @@ const Board: React.FC<{}> = () => {
         {circles}
         {pieces}
       </svg>
+
+      <button onClick={() => props.resetBoard()}>Reset</button>
     </div>
   );
 };
 
-export default Board;
+const mapStateToProps = state => {
+  return {
+    board: state.board,
+    currentPlayer: state.currentPlayer
+  };
+};
+
+const mapDispatchToProps = () => {
+  return {
+    resetBoard
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Board);

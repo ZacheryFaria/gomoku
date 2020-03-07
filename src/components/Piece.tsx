@@ -1,52 +1,48 @@
-import React, { useEffect, useState, useRef } from "react";
+import React from "react";
+import { connect } from "react-redux";
+import { placePiece, changePlayer } from "../reducer";
 
 interface Props {
   x: number;
   y: number;
   radius: number;
   id: number;
+  user: number;
+  placePiece: (i: number, user: number) => void;
   changePlayer: () => void;
+  currentPlayer: number;
+  selected: number;
 }
 
 const Piece: React.FC<Props> = props => {
-  const [opacity, setOpacity] = useState("0%");
-  const [placed, setPlaced] = useState(false);
-  const placedPlayer = useRef(0);
+  let opacity: string;
 
-  let color;
-  if (placed) {
-    color = placedPlayer.current === 1 ? "black" : "white";
+  let color: string;
+
+  if (props.selected === undefined) {
+    color = props.currentPlayer === 0 ? "black" : "white";
+    opacity = "0%";
   } else {
-    color = props.id === 1 ? "black" : "white";
+    color = props.selected === 0 ? "black" : "white";
+    opacity = "100%";
   }
 
-  useEffect(() => {
-    let c = document.getElementById(`${props.x}-${props.y}`);
-    function mouseDown(e: MouseEvent) {
-      if (!placed) {
-        setOpacity("100%");
-        setPlaced(true);
-        placedPlayer.current = props.id;
-        props.changePlayer();
-      }
+  function clicked() {
+    if (props.selected === undefined) {
+      //setOpacity("100%");
+      //setPlaced(true);
+      //placedPlayer.current = props.id;
+      //props.changePlayer();
+      props.placePiece(props.id, props.user);
+      props.changePlayer();
     }
-
-    if (c) {
-      c.addEventListener("mousedown", mouseDown);
-    }
-
-    return () => {
-      if (c) {
-        c.removeEventListener("mousedown", mouseDown);
-      }
-    };
-  });
+  }
 
   return (
     <circle
-      onClick={() => setOpacity("100%")}
+      onClick={() => clicked()}
       id={`${props.x}-${props.y}`}
-      className={placed ? "" : "Piece"}
+      className={props.selected !== undefined ? "" : "Piece"}
       cx={props.x}
       cy={props.y}
       r={props.radius}
@@ -56,4 +52,19 @@ const Piece: React.FC<Props> = props => {
   );
 };
 
-export default Piece;
+const mapStateToProps = (state, props) => {
+  return {
+    selected: state.board[props.id],
+    user: state.currentPlayer,
+    currentPlayer: state.currentPlayer
+  };
+};
+
+const mapDispatchToProps = () => {
+  return {
+    placePiece,
+    changePlayer
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Piece);
