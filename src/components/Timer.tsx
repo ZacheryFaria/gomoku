@@ -8,7 +8,7 @@ const Timer: React.FC<{}> = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setSeconds(([a,b]) => {
-        if (player == 0) {
+        if (player === 0) {
           return ([a+1, b]);
         } else {
           return ([a, b+1]);
@@ -16,7 +16,7 @@ const Timer: React.FC<{}> = () => {
       })
     }, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [player]);
 
   // TODO: add css
   return (
