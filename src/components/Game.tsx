@@ -11,15 +11,15 @@ interface Props {
 
 const Game: React.FC<Props> = props => {
   useEffect(() => {
-    console.log(props.currentPlayer);
-    if (!props.currentPlayer.isHuman) {
-      for (var i = 0; i < props.board.length; i++) {
-        if (props.board[i] === -1) {
-          placePiece(i, props.currentPlayer.id);
-        }
-      }
-      //ai stuff
-    }
+    // console.log(props.currentPlayer);
+    // if (!props.currentPlayer.isHuman) {
+    //   for (var i = 0; i < props.board.length; i++) {
+    //     if (props.board[i] === -1) {
+    //       placePiece(i, props.currentPlayer.id);
+    //     }
+    //   }
+    //   //ai stuff
+    // }
   }, [props.currentPlayer]);
 
   return (

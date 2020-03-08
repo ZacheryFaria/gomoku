@@ -21,7 +21,7 @@ export const initialState: BoardState = {
   ),
   players: [
     { id: 0, isHuman: true },
-    { id: 1, isHuman: false }
+    { id: 1, isHuman: true }
   ],
   currentPlayer: 0,
   seconds: Array<number>(0, 0)
