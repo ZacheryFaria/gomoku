@@ -1,29 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { addSecond } from "../reducer";
 
-const Timer: React.FC<{}> = () => {
-  const [seconds, setSeconds] = useState([0,0]);
+interface Props {
+  seconds: Array<number>;
+  currentPlayer: number;
+  addSecond: (index: number) => void;
+}
 
-  const [player, setPlayer] = useState(0);
-
+const Timer: React.FC<Props> = props => {
   useEffect(() => {
     const interval = setInterval(() => {
-      setSeconds(([a,b]) => {
-        if (player === 0) {
-          return ([a+1, b]);
-        } else {
-          return ([a, b+1]);
-        }
-      })
+      //props.addSecond(props.currentPlayer);
     }, 1000);
     return () => clearInterval(interval);
-  }, [player]);
+  }, []);
 
   // TODO: add css
-  return (
-    <div>
-      {seconds[0] + " - " + seconds[1]}
-    </div>
-  );
+  return <div>{props.seconds[0] + " - " + props.seconds[1]}</div>;
 };
 
-export default Timer
+const mapStateToProps = state => {
+  return {
+    seconds: state.seconds,
+    currentPlayer: state.currentPlayer
+  };
+};
+
+export default connect(mapStateToProps, { addSecond })(Timer);
