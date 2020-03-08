@@ -1,5 +1,5 @@
 import React from "react";
-import Board from "./components/Board";
+import Game from "./components/Game";
 import { Provider } from "react-redux";
 import store from "./store";
 import Timer from "./components/Timer";
@@ -11,7 +11,7 @@ function App() {
     <Provider store={store}>
       <div className="App">
         <Timer />
-        <Board />
+        <Game />
       </div>
     </Provider>
   );

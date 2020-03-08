@@ -1,16 +1,15 @@
 import React from "react";
 import { connect } from "react-redux";
 import { placePiece, changePlayer } from "../reducer";
+import { Player, BoardState } from "../store";
 
 interface Props {
   x: number;
   y: number;
   radius: number;
   id: number;
-  user: number;
   placePiece: (i: number, user: number) => void;
-  changePlayer: () => void;
-  currentPlayer: number;
+  currentPlayer: Player;
   selected: number;
 }
 
@@ -19,8 +18,8 @@ const Piece: React.FC<Props> = props => {
 
   let color: string;
 
-  if (props.selected === undefined) {
-    color = props.currentPlayer === 0 ? "black" : "white";
+  if (props.selected === -1) {
+    color = props.currentPlayer.id === 0 ? "black" : "white";
     opacity = "0%";
   } else {
     color = props.selected === 0 ? "black" : "white";
@@ -28,13 +27,8 @@ const Piece: React.FC<Props> = props => {
   }
 
   function clicked() {
-    if (props.selected === undefined) {
-      //setOpacity("100%");
-      //setPlaced(true);
-      //placedPlayer.current = props.id;
-      //props.changePlayer();
-      props.placePiece(props.id, props.user);
-      props.changePlayer();
+    if (props.currentPlayer.isHuman) {
+      props.placePiece(props.id, props.currentPlayer.id);
     }
   }
 
@@ -42,7 +36,9 @@ const Piece: React.FC<Props> = props => {
     <circle
       onClick={() => clicked()}
       id={`${props.x}-${props.y}`}
-      className={props.selected !== undefined ? "" : "Piece"}
+      className={
+        props.selected !== -1 || !props.currentPlayer.isHuman ? "" : "Piece"
+      }
       cx={props.x}
       cy={props.y}
       r={props.radius}
@@ -52,18 +48,16 @@ const Piece: React.FC<Props> = props => {
   );
 };
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = (state: BoardState, props) => {
   return {
     selected: state.board[props.id],
-    user: state.currentPlayer,
-    currentPlayer: state.currentPlayer
+    currentPlayer: state.players[state.currentPlayer]
   };
 };
 
 const mapDispatchToProps = () => {
   return {
-    placePiece,
-    changePlayer
+    placePiece
   };
 };
 

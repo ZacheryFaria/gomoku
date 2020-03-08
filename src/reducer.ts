@@ -5,6 +5,7 @@ import {
   CHANGE_TIME
 } from "./actions";
 import store, { initialState, BoardState } from "./store";
+import { act } from "react-dom/test-utils";
 // import { act } from "react-dom/test-utils";
 
 interface PlacePieceAction {
@@ -65,6 +66,40 @@ export function addSecond(index: number) {
   });
 }
 
+function resetBoardReducer(state) {
+  state.currentPlayer = 0;
+  state.seconds = [0, 0];
+  state.board = state.board.map(() => -1);
+  return {
+    ...state
+  };
+}
+
+function changePlayerReducer(state: BoardState): BoardState {
+  state.currentPlayer = state.currentPlayer === 1 ? 0 : 1;
+
+  return {
+    ...state
+  };
+}
+
+function placePieceReducer(
+  state: BoardState,
+  action: PlacePieceAction
+): BoardState {
+  if (action.payload.player !== state.currentPlayer) {
+    return state;
+  }
+
+  if (state.board[action.payload.index] === -1) {
+    state.board[action.payload.index] = action.payload.player;
+    state.currentPlayer = state.currentPlayer === 1 ? 0 : 1;
+  }
+  return {
+    ...state
+  };
+}
+
 export function rootReducer(
   state: BoardState = initialState,
   action:
@@ -73,32 +108,18 @@ export function rootReducer(
     | ResetBoardAction
     | TimeChangeAction
 ): BoardState {
-  let b: BoardState = Object.assign({}, state);
+  let newState: BoardState = Object.assign({}, state);
   switch (action.type) {
     case PLACE_PIECE:
-      b.board[action.payload.index] = action.payload.player;
-      return {
-        ...b,
-        board: b.board
-      };
+      return placePieceReducer(state, action);
     case CHANGE_PLAYER:
-      return {
-        ...state,
-        currentPlayer: state.currentPlayer === 1 ? 0 : 1
-      };
+      return changePlayerReducer(state);
     case RESET_BOARD:
-      b.currentPlayer = 0;
-      for (var i = 0; i < b.board.length; i++) {
-        b.board[i] = undefined;
-      }
-      return {
-        ...b,
-        board: b.board
-      };
+      return resetBoardReducer(state);
     case CHANGE_TIME:
-      b.seconds[action.payload.index] += 1;
+      newState.seconds[action.payload.index] += 1;
       return {
-        ...b
+        ...newState
       };
     default:
       return state;
