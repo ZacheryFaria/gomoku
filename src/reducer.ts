@@ -69,7 +69,7 @@ export function addSecond(index: number) {
 
 function resetBoardReducer(state: BoardState) {
   state.currentPlayer = 0;
-  state.seconds = [0, 0];
+  state.timePassed = [0, 0];
   state.board = state.board.map(() => -1);
   return {
     ...state
@@ -106,12 +106,12 @@ function changeTimeReducer(
   state: BoardState,
   action: TimeChangeAction
 ): BoardState {
-  state.seconds = [...state.seconds];
-  state.seconds[action.payload.index]++;
+  state.timePassed = [...state.timePassed];
+  state.timePassed[action.payload.index]++;
 
   return {
     ...state,
-    seconds: state.seconds
+    timePassed: state.timePassed
   };
 }
 

@@ -3,16 +3,20 @@ import { rootReducer } from "./reducer";
 import { boardSquares } from "./components/Constants";
 import thunk from "redux-thunk";
 
+// TODO: add pieces captured to Player, check for win condition
 export interface Player {
   id: number;
   isHuman: boolean;
 }
 
+/**
+ * @param timePassed time passed in (seconds*10)
+ */
 export interface BoardState {
   board: Array<number>;
   currentPlayer: number;
   players: Array<Player>;
-  seconds: Array<number>;
+  timePassed: Array<number>;
 }
 
 export const initialState: BoardState = {
@@ -24,7 +28,7 @@ export const initialState: BoardState = {
     { id: 1, isHuman: true }
   ],
   currentPlayer: 0,
-  seconds: Array<number>(0, 0)
+  timePassed: Array<number>(0, 0)
 };
 
 const store = createStore(

@@ -4,7 +4,7 @@ import { addSecond } from "../reducer";
 import { BoardState } from "../store";
 
 interface Props {
-  seconds: Array<number>;
+  timePassed: Array<number>;
   currentPlayer: number;
   addSecond: (index: number) => void;
 }
@@ -13,17 +13,23 @@ const Timer: React.FC<Props> = props => {
   useEffect(() => {
     const interval = setInterval(() => {
       props.addSecond(props.currentPlayer);
-    }, 1000);
+    }, 100);
     return () => clearInterval(interval);
   }, [props.currentPlayer]);
 
   // TODO: add css
-  return <div>{props.seconds[0] + " - " + props.seconds[1]}</div>;
+  return (
+    <div className="Timer">
+      {(props.timePassed[0] / 10).toFixed(1) +
+        " - " +
+        (props.timePassed[1] / 10).toFixed(1)}
+    </div>
+  );
 };
 
 const mapStateToProps = (state: BoardState) => {
   return {
-    seconds: state.seconds,
+    timePassed: state.timePassed,
     currentPlayer: state.currentPlayer
   };
 };
