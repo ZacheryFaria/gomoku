@@ -36,3 +36,8 @@ body {
 .Piece:hover {
   opacity: 50%;
 }
+
+.Timer {
+  font-family: monospace;
+  font-size: 2.5vw;
+}

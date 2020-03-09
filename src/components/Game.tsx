@@ -14,7 +14,7 @@ const Game: React.FC<Props> = props => {
   useEffect(() => {
     if (!props.currentPlayer.isHuman) {
       //ai stuff
-      var moves = makeMove(props.currentPlayer.id, props.board, 15);
+      var moves = makeMove(props.currentPlayer, props.board, 15);
       for (var i = 0; i < moves.length; i++) {
         if (props.board[moves[i].idx] === -1) {
           placePiece(moves[i].idx, props.currentPlayer.id);
