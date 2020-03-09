@@ -5,6 +5,7 @@ import {
   CHANGE_TIME
 } from "./actions";
 import store, { initialState, BoardState } from "./store";
+import { Dispatch } from "redux";
 
 interface PlacePieceAction {
   type: typeof PLACE_PIECE;
@@ -56,7 +57,7 @@ export function resetBoard() {
 }
 
 export function addSecond(index: number) {
-  return async function(dispatch) {
+  return async function(dispatch: Dispatch) {
     dispatch({
       type: CHANGE_TIME,
       payload: {
@@ -66,7 +67,7 @@ export function addSecond(index: number) {
   };
 }
 
-function resetBoardReducer(state) {
+function resetBoardReducer(state: BoardState) {
   state.currentPlayer = 0;
   state.seconds = [0, 0];
   state.board = state.board.map(() => -1);

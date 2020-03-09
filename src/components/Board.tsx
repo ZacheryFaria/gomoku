@@ -13,6 +13,7 @@ import { resetBoard } from "../reducer";
 
 import Cell from "./Cell";
 import { connect } from "react-redux";
+import { BoardState } from "../store";
 
 interface Props {
   board: Array<number>;
@@ -28,8 +29,8 @@ const Board: React.FC<Props> = props => {
   var circles = [];
 
   for (var i = 0; i < boardSquares * boardSquares; i++) {
-    let x = boardMargin + (i % boardSquares) * cellSize;
-    let y = boardMargin + Math.floor(i / boardSquares) * cellSize;
+    let x: number = boardMargin + (i % boardSquares) * cellSize;
+    let y: number = boardMargin + Math.floor(i / boardSquares) * cellSize;
 
     cells.push(<Cell id={i} x={x} y={y} size={cellSize} key={i} />);
 
@@ -50,16 +51,7 @@ const Board: React.FC<Props> = props => {
     let x = boardMargin + (i % (boardSquares + 1)) * cellSize;
     let y = boardMargin + Math.floor(i / (boardSquares + 1)) * cellSize;
 
-    pieces.push(
-      <Piece
-        x={x}
-        y={y}
-        radius={cellSize / 2.2}
-        user={props.currentPlayer}
-        id={i}
-        key={i}
-      />
-    );
+    pieces.push(<Piece x={x} y={y} radius={cellSize / 2.2} id={i} key={i} />);
   }
 
   return (
@@ -86,7 +78,7 @@ const Board: React.FC<Props> = props => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state: BoardState) => {
   return {
     board: state.board,
     currentPlayer: state.currentPlayer

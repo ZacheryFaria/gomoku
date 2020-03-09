@@ -1,16 +1,16 @@
 import React from "react";
 import { connect } from "react-redux";
-import { placePiece, changePlayer } from "../reducer";
-import { Player, BoardState } from "../store";
+import { placePiece } from "../reducer";
+import { Player } from "../store";
 
 interface Props {
   x: number;
   y: number;
   radius: number;
   id: number;
-  placePiece: (i: number, user: number) => void;
   currentPlayer: Player;
   selected: number;
+  placePiece: (i: number, user: number) => void;
 }
 
 const Piece: React.FC<Props> = props => {
@@ -48,7 +48,7 @@ const Piece: React.FC<Props> = props => {
   );
 };
 
-const mapStateToProps = (state: BoardState, props) => {
+const mapStateToProps = (state, props) => {
   return {
     selected: state.board[props.id],
     currentPlayer: state.players[state.currentPlayer]

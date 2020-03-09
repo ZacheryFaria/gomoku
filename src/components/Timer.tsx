@@ -17,11 +17,6 @@ const Timer: React.FC<Props> = props => {
     return () => clearInterval(interval);
   }, [props.currentPlayer]);
 
-  useEffect(() => {
-    console.log(props.seconds);
-  });
-
-  console.log(props.seconds);
   // TODO: add css
   return <div>{props.seconds[0] + " - " + props.seconds[1]}</div>;
 };

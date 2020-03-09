@@ -15,7 +15,6 @@ const Game: React.FC<Props> = props => {
     // if (!props.currentPlayer.isHuman) {
     //   for (var i = 0; i < props.board.length; i++) {
     //     if (props.board[i] === -1) {
-    //       placePiece(i, props.currentPlayer.id);
     //     }
     //   }
     //   //ai stuff
