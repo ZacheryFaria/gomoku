@@ -72,8 +72,6 @@ const Board: React.FC<Props> = props => {
         {circles}
         {pieces}
       </svg>
-
-      <button onClick={() => props.resetBoard()}>Reset</button>
     </div>
   );
 };
