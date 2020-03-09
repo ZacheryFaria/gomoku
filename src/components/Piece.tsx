@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { placePiece, changePlayer } from "../reducer";
+import { placePiece } from "../reducer";
 import { Player, BoardState } from "../store";
 
 interface Props {
