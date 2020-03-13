@@ -11,9 +11,15 @@ export interface Player {
 
 /**
  * @param timePassed time passed in (seconds*10)
+ * @param captures number of pieces captured by each player
+ * @param winner winnner of game.  -1 if no winner yet
+ * @param err string representing error
  */
 export interface BoardState {
   board: Array<number>;
+  captures: Array<number>;
+  winner: number;
+  err: string;
   currentPlayer: number;
   players: Array<Player>;
   timePassed: Array<number>;
@@ -23,6 +29,9 @@ export const initialState: BoardState = {
   board: [...Array<number>((boardSquares + 1) * (boardSquares + 1))].map(
     () => -1
   ),
+  captures: [0, 0],
+  winner: -1,
+  err: "",
   players: [
     { id: 0, isHuman: true },
     { id: 1, isHuman: true }

@@ -17,11 +17,11 @@ const Timer: React.FC<Props> = props => {
     return () => clearInterval(interval);
   }, [props.currentPlayer]);
 
-  useEffect(() => {
-    console.log(props.timePassed);
-  });
+  // useEffect(() => {
+  //   console.log(props.timePassed);
+  // });
 
-  console.log(props.timePassed);
+  // console.log(props.timePassed);
   // TODO: add css
   return (
     <div className="Timer">

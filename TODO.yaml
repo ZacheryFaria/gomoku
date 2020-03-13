@@ -1,5 +1,6 @@
 - TODO:
-  - timer
-  - implement board state
-  - reset button
-  - AI
+    - timer
+    - implement board state:
+        - add pieces captured to state
+    - reset button
+    - AI

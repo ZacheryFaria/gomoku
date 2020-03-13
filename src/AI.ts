@@ -14,10 +14,16 @@ interface Move {
  * Make AI move
  * @param player player object
  * @param board copy of current board state
+ * @param captures number of pieces captured
  * @param ply depth
  * @returns sorted list containing index and confidence of moves
  */
-function makeMove(player: Player, board: number[], ply: number): Move[] {
+function makeMove(
+  player: Player,
+  board: Array<number>,
+  captures: Array<number>,
+  ply: number
+): Move[] {
   var r: Move[] = [];
   for (var i = 0; i < 100; i++) {
     r.push({ confidence: 100, idx: i });

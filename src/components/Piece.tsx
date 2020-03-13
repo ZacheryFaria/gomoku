@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { placePiece } from "../reducer";
+import { placePieceAction } from "../reducer";
 import { Player, BoardState } from "../store";
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
   y: number;
   radius: number;
   id: number;
-  placePiece: (i: number, user: number) => void;
+  placePieceAction: (i: number, user: number) => void;
   currentPlayer: Player;
   selected: number;
 }
@@ -28,7 +28,7 @@ const Piece: React.FC<Props> = props => {
 
   function clicked() {
     if (props.currentPlayer.isHuman) {
-      props.placePiece(props.id, props.currentPlayer.id);
+      props.placePieceAction(props.id, props.currentPlayer.id);
     }
   }
 
@@ -57,7 +57,7 @@ const mapStateToProps = (state: BoardState, props) => {
 
 const mapDispatchToProps = () => {
   return {
-    placePiece
+    placePieceAction
   };
 };
 

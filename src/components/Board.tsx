@@ -13,6 +13,7 @@ import { resetBoard } from "../reducer";
 
 import Cell from "./Cell";
 import { connect } from "react-redux";
+import { BoardState } from "../store";
 
 interface Props {
   board: Array<number>;
@@ -67,7 +68,8 @@ const Board: React.FC<Props> = props => {
       <svg
         id="board"
         className="Board"
-        viewBox={`0 0 ${boardSize} ${boardSize}`}>
+        viewBox={`0 0 ${boardSize} ${boardSize}`}
+      >
         <rect
           x="0"
           y="0"
@@ -85,6 +87,41 @@ const Board: React.FC<Props> = props => {
     </div>
   );
 };
+
+/**
+ * Place a piece on a board.  Modifies board,captures,winner
+ * @param idx index of state.board to place piece
+ * @param player player id
+ * @param state current game state
+ * @returns new board state on success
+ *          OR old board state with error message on failure
+ */
+function placePiece(
+  idx: number,
+  player: number,
+  state: BoardState
+): BoardState {
+  function RVError(err: string, state: BoardState): BoardState {
+    var newState = { ...state };
+    newState.err = err;
+    return newState;
+  }
+
+  // validate move
+  if (state.board[idx] === -1) {
+    // is valid move
+    var newBoard = { ...state.board };
+    newBoard[idx] = player;
+    var newState = { ...state };
+    newState.board = newBoard;
+    newState.err = "";
+    return newState;
+  } else {
+    return RVError("bad index", state);
+  }
+}
+
+export { placePiece };
 
 const mapStateToProps = state => {
   return {
