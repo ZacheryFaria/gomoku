@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import Board from "./Board";
+import Settings from "./Settings";
 import { connect } from "react-redux";
 import { BoardState, Player } from "../store";
 import { placePieceAction } from "../reducer";
@@ -27,6 +28,7 @@ const Game: React.FC<Props> = props => {
   return (
     <div className="App">
       <Board />
+      <Settings />
     </div>
   );
 };

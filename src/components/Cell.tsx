@@ -1,5 +1,5 @@
 import React from "react";
-import { cellColor } from "./Constants"
+import { cellColor } from "./Constants";
 
 interface Props {
   id: number;
