@@ -57,7 +57,6 @@ export function addSecond(index: number) {
 function resetBoardReducer(state: BoardState) {
   state.currentPlayer = 0;
   state.timePassed = [0, 0];
-  // FIXME: this breaks when the board is non-empty
   state.board = state.board.map(() => -1);
   return {
     ...state

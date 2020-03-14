@@ -99,7 +99,7 @@ function placePiece(
   // validate move
   if (state.board[idx] === -1) {
     // is valid move
-    var newBoard = { ...state.board };
+    var newBoard = [...state.board];
     newBoard[idx] = player;
     var newState = { ...state };
     newState.board = newBoard;
