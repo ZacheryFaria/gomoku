@@ -2,7 +2,8 @@ import {
   CHANGE_PLAYER,
   CHANGE_TIME,
   PLACE_PIECE,
-  RESET_BOARD
+  RESET_BOARD,
+  SET_PLAYERS
 } from "./actions";
 import store, { initialState, BoardState } from "./store";
 import { Dispatch } from "redux";
@@ -28,6 +29,11 @@ interface TimeChangeAction {
   payload: { index: number };
 }
 
+interface SetPlayersAction {
+  type: typeof SET_PLAYERS;
+  payload: { p1: boolean; p2: boolean };
+}
+
 export function placePieceAction(index: number, player: number) {
   store.dispatch({
     type: PLACE_PIECE,
@@ -41,6 +47,10 @@ export function changePlayer() {
 
 export function resetBoard() {
   store.dispatch({ type: RESET_BOARD, payload: {} });
+}
+
+export function setPlayers(p1: boolean, p2: boolean) {
+  store.dispatch({ type: SET_PLAYERS, payload: { p1: p1, p2: p2 } });
 }
 
 export function addSecond(index: number) {
@@ -93,6 +103,17 @@ function changeTimeReducer(
   return { ...state, timePassed: state.timePassed };
 }
 
+export function setPlayersReducer(
+  state: BoardState,
+  action: SetPlayersAction
+): BoardState {
+  state.players[0].isHuman = action.payload.p1;
+  state.players[1].isHuman = action.payload.p2;
+  return {
+    ...state
+  };
+}
+
 export function rootReducer(
   state: BoardState = initialState,
   action:
@@ -100,6 +121,7 @@ export function rootReducer(
     | PlacePieceAction
     | ResetBoardAction
     | TimeChangeAction
+    | SetPlayersAction
 ): BoardState {
   switch (action.type) {
     case PLACE_PIECE:
@@ -110,6 +132,8 @@ export function rootReducer(
       return resetBoardReducer(state);
     case CHANGE_TIME:
       return changeTimeReducer(state, action);
+    case SET_PLAYERS:
+      return setPlayersReducer(state, action);
     default:
       return state;
   }
